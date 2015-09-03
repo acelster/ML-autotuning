@@ -1,0 +1,20 @@
+# Copyright (c) 2015, Thomas L. Falch
+# For conditions of distribution and use, see the accompanying LICENSE and README files
+
+# This file is part of the AUMA machine learning based auto tuning application
+# developed at the Norwegian University of Science and technology
+
+
+
+PARAMETER_RANGES:10 10 10 10
+COMMAND1:./a.out data1.txt data2.txt 100
+COMMAND2:./a.out data3.txt data4.txt 100
+FILE1:data1.txt
+FILE2:data2.txt
+FILE3:data3.txt
+FILE4:data4.txt
+N_TRAINING_SAMPLES:100
+N_SECOND_STAGE:10
+NETWORK_SIZE:30
+KEEP_FILES:0
+K:10
