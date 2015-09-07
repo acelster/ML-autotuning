@@ -7,26 +7,55 @@
 
 all: ocl noocl
 
-ocl:
+test: ocl
+	cd bin; \
+	echo "\n==Testing raycast==\n"; \
+	./raycast -t; \
+	echo "\n==Testing stereo==\n"; \
+	./stereo -t; \
+	echo "\n==Testing convolution==\n"; \
+	./convolution -t; \
+	echo "\n==Testing bilateral==\n"; \
+	./bilateral -t; \
+	cd ..
+
+ocl: bin/stereo bin/raycast bin/convolution bin/bilateral
+
+bin/stereo :
 	mkdir -p bin
 	$(MAKE) -C stereo
 	mv stereo/stereo bin/
 	cp stereo/stereo.cl bin/
+
+bin/raycast :
+	mkdir -p bin
 	$(MAKE) -C raycasting
 	mv raycasting/raycast bin/
 	cp raycasting/raycast.cl bin/
+
+bin/convolution :
+	mkdir -p bin
 	$(MAKE) -C convolution
 	mv convolution/convolution bin/
 	cp convolution/convolution.cl bin/
+
+bin/bilateral:
+	mkdir -p bin
 	$(MAKE) -C bilateral 
 	mv bilateral/bilateral bin/
 	cp bilateral/bilateral.cl bin/
 	
-noocl:
+noocl: bin/test bin/matmul
+
+bin/test:
+	mkdir -p bin
+	$(MAKE) -C simple
+	mv simple/test bin/test
+
+bin/matmul:
 	mkdir -p bin
 	$(MAKE) -C simple
 	mv simple/matmul bin/matmul
-	mv simple/test bin/test
 	
 clean:
 	rm -rf bin
