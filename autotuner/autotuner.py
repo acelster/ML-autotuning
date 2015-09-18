@@ -17,9 +17,20 @@ from datautil import *
 def probIsMin(mu_a, mu_b, stdev_a, stdev_b):
     #The probability that a is less than b, e.g. a < b, e.g. b - a > 0
     
-    mu =  mu_b-mu_a
+    #mu =  mu_b-mu_a
+    #var = stdev_a**2 + stdev_b**2 
+    #return 1.0 - sp.stats.norm(loc=mu, scale=math.sqrt(var)).cdf(0)
+
+    mu =  mu_b
     var = stdev_a**2 + stdev_b**2 
-    return 1.0 - sp.stats.norm(loc=mu, scale=math.sqrt(var)).cdf(0)
+    return 1.0 - sp.stats.norm(loc=mu, scale=math.sqrt(var)).cdf(0 + mu_a)
+
+def invProbIsMin(mu_b, stdev_a, stdev_b, threshold):
+    mu =  mu_b
+    var = stdev_a**2 + stdev_b**2 
+
+    return sp.stats.norm(loc=mu, scale=math.sqrt(var)).ppf(1-threshold)
+
 
 
 def getSubset(full1, full2, subset1, subset2, subsetSize):

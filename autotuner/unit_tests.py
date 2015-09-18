@@ -142,6 +142,10 @@ class TestAutotuner(unittest.TestCase):
         
         a = probIsMin(2,1,0.5,0.3)
         self.assertAlmostEqual(a,1-0.9568,places=4)
+
+    def test_invProbIsMin(self):
+        a = invProbIsMin(2, 1, 1, 1-0.2398)
+        self.assertAlmostEqual(a,1.000,places=3)
         
         
     def test_getSubset(self):
