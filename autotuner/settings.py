@@ -43,8 +43,13 @@ class Settings:
                 self.networkSize = int(l[1])
             if l[0] == "N_TRAINING_SAMPLES":
                 self.nTrainingSamples = int(l[1])
-            if l[0] == "N_SECOND_STAGE":
+            if l[0] == "N_SECOND_STAGE_MIN":
+                self.nSecondStageMin = int(l[1])
                 self.nSecondStage = int(l[1])
+            if l[0] == "N_SECOND_STAGE_MAX":
+                self.nSecondStageMax = int(l[1])
+            if l[0] == "SECOND_STAGE_THRESHOLD":
+                self.secondStageThreshold = float(l[1])
             if l[0] == "KEEP_FILES":
                 self.keepFiles = int(l[1])
             if l[0] == "K":
@@ -74,6 +79,22 @@ class Settings:
             
         if self.nSecondStage <= 0:
             print "ERROR: number of samples in second stage must be positive"
+            exit(-1)
+
+        if self.nSecondStageMin <= 0:
+            print "ERROR: number of samples in second stage must be positive"
+            exit(-1)
+
+        if self.nSecondStageMax <=0:
+            print "ERROR: number of samples in second stage must be positive"
+            exit(-1)
+
+        if self.nSecondStageMax <= self.nSecondStageMin:
+            print "ERROR: maximum number of samples in second stage must be larger than minimum"
+            exit(-1)
+
+        if self.secondStageThreshold < 0.0 or self.secondStageThreshold > 100.0:
+            print "ERROR: second stage threshold must be between 0 and 100"
             exit(-1)
             
         if self.k <= 0:
