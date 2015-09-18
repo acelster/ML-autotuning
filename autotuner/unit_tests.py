@@ -125,6 +125,23 @@ class TestAutotuner(unittest.TestCase):
     
     def setUp(self):
         pass
+
+    def test_probIsMin(self):
+        
+        a = probIsMin(1,2,1,1)
+        self.assertAlmostEqual(a,1-0.2398,places=4)
+        
+        a = probIsMin(0.5,1.5,1,1)
+        self.assertAlmostEqual(a, 1-0.2398,places=4)
+        
+        a = probIsMin(1,2,0.5,0.5)
+        self.assertAlmostEqual(a,0.9214,places=4)
+        
+        a = probIsMin(1,2,0.3,0.5)
+        self.assertAlmostEqual(a,0.9568,places=4)
+        
+        a = probIsMin(2,1,0.5,0.3)
+        self.assertAlmostEqual(a,1-0.9568,places=4)
         
         
     def test_getSubset(self):
