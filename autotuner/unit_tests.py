@@ -59,10 +59,6 @@ class TestFileoperations(unittest.TestCase):
         
         self.assertEqual(None, d_short)
         
-class TestFileOperations(unittest.TestCase):
-    
-    def setUp(self):
-        return None
     
     def test_createFile3(self):
         settings = Settings()
