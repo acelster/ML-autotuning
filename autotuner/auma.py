@@ -57,7 +57,7 @@ print "Training model and predicting..."
 secondStageTimeThreshold, secondStage = tune(filteredInputData, filteredOutputData, settings, KFoldAnn(settings))
 
 print "Generating", settings.file3, "..."
-createFile3(secondStage, settings)
+createFile3(secondStage, secondStageTimeThreshold, settings)
 
 print "Executing", settings.command2, "..."
 os.system(settings.command2)

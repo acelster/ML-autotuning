@@ -10,6 +10,7 @@ from autotuner import *
 from datautil import * 
 import fileoperations
 import unittest
+from fileoperations import createFile3
 
 class TestSettings(unittest.TestCase):
     
@@ -58,6 +59,32 @@ class TestFileoperations(unittest.TestCase):
         
         self.assertEqual(None, d_short)
         
+class TestFileOperations(unittest.TestCase):
+    
+    def setUp(self):
+        return None
+    
+    def test_createFile3(self):
+        settings = Settings()
+        settings.file3 = "test_file3.txt"
+        settings.nSecondStageMin = 10
+        settings.nSecondStageMax = 100
+        
+        secondStage = [[1,2,3],[4,5,6],[7,8,9],[10,11,12]]
+        
+        createFile3(secondStage, 18, settings)
+        
+        file3 = open("test_file3.txt")
+        
+        lines = []
+        for line in file3:
+            lines.append(line.strip())
+            
+        self.assertEqual("4 3 18 10 100", lines[0])
+        self.assertEqual("1 2 3", lines[1])
+        self.assertEqual("4 5 6", lines[2])
+        self.assertEqual("7 8 9", lines[3])
+        self.assertEqual("10 11 12", lines[4])
 
 class TestTransformer(unittest.TestCase):
 

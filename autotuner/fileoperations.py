@@ -75,11 +75,11 @@ def createFile1(settings):
     file1.close()
     
 
-def createFile3(secondStage, settings):
+def createFile3(secondStage, secondStageTimeThreshold, settings):
     
     file3 = open(settings.file3, "w+")
     
-    file3.write("{} {}\n".format(len(secondStage), len(secondStage[0])))
+    file3.write("{} {} {} {} {}\n".format(len(secondStage), len(secondStage[0]), secondStageTimeThreshold, settings.nSecondStageMin, settings.nSecondStageMax ))
     
     for i in range(0, len(secondStage)):
         s = configurationToString(secondStage[i])
