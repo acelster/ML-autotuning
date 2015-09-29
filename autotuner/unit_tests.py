@@ -4,7 +4,7 @@
 # This file is part of the AUMA machine learning based auto tuning application
 # developed at the Norwegian University of Science and technology
 
-
+import os
 from settings import Settings
 from autotuner import *
 from datautil import * 
@@ -85,6 +85,8 @@ class TestFileOperations(unittest.TestCase):
         self.assertEqual("4 5 6", lines[2])
         self.assertEqual("7 8 9", lines[3])
         self.assertEqual("10 11 12", lines[4])
+        
+        os.remove("test_file3.txt")
 
 class TestTransformer(unittest.TestCase):
 
