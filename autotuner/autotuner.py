@@ -69,14 +69,18 @@ def tune(inputData, outputData, settings, kfa):
     predictions = kfa.runAll(allInputCombinations)
     
     secondStageConfigs = []
+    bestPredictedTime = min(predictions)
+    secondStageTimeThreshold = getSecondStageTimeThreshold(bestPredictedTime, kfa, settings)
+    
     
     print "Finding best predictions..."
-    for i in range(0, settings.nSecondStage):
-        index = predictions.index(min(predictions))
+    while len(predictions) > 0:
+        time = min(predictions)
+        index = predictions.index(time)
         combo = untransformSingle(allInputCombinations[index], settings.parameterRanges)
 
         secondStageConfigs.append(combo)
         del predictions[index]
         del allInputCombinations[index]
         
-    return secondStageConfigs
+    return secondStageTimeThreshold, secondStageConfigs

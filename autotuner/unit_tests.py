@@ -117,9 +117,13 @@ class  Mock_KFoldAnn:
         pass
     
     def runAll(self, inputData):
-        outputData = [sum(x) for x in inputData]
+        outputData = [sum(x) + 104 for x in inputData]
         
         return outputData
+    
+    def getErrorEstimate(self):
+        return 0.1
+    
         
 class TestAutotuner(unittest.TestCase):
     
@@ -127,7 +131,6 @@ class TestAutotuner(unittest.TestCase):
         pass
 
     def test_probIsMin(self):
-        
         a = probIsMin(1,2,1,1)
         self.assertAlmostEqual(a,1-0.2398,places=4)
         
@@ -142,10 +145,18 @@ class TestAutotuner(unittest.TestCase):
         
         a = probIsMin(2,1,0.5,0.3)
         self.assertAlmostEqual(a,1-0.9568,places=4)
+        
 
     def test_invProbIsMin(self):
         a = invProbIsMin(2, 1, 1, 1-0.2398)
         self.assertAlmostEqual(a,1.000,places=3)
+        
+        a = invProbIsMin(1, 0.1, 0.1, 0.1)
+        self.assertAlmostEqual(a, 1.181, 3)
+
+        a = invProbIsMin(1, 0.1, 0.1, 0.4)
+        self.assertAlmostEqual(a, 1.036, 3)
+
 
     def test_getSecondStageTimeThreshold(self):
         settings = Settings()
@@ -217,15 +228,16 @@ class TestAutotuner(unittest.TestCase):
         settings.parameterRanges = [2,3,4]
         settings.computeNConfigurations()
         settings.nTrainingSamples = 0
-        settings.nSecondStage = 3
+        settings.secondStageThreshold = 0.1
         
-        secondStageConfigs = tune(inputData, outputData, settings, Mock_KFoldAnn())
+        secondStageTimeThreshold, secondStageConfigs = tune(inputData, outputData, settings, Mock_KFoldAnn())
         
-        self.assertEqual(3, len(secondStageConfigs))
+        self.assertEqual(2*3*4, len(secondStageConfigs))
         self.assertEqual([0,0,0], secondStageConfigs[0])
         self.assertEqual(1, sum(secondStageConfigs[1]))
         self.assertEqual(1, sum(secondStageConfigs[2]))
+        self.assertAlmostEqual(118.124, secondStageTimeThreshold, 3)
         
             
 if __name__ == '__main__':
-	unittest.main()
+    unittest.main()

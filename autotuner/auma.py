@@ -54,7 +54,7 @@ if settings.nTrainingSamples > len(filteredInputData) or settings.nTrainingSampl
         
 
 print "Training model and predicting..."
-secondStage = tune(filteredInputData, filteredOutputData, settings, KFoldAnn(settings))
+secondStageTimeThreshold, secondStage = tune(filteredInputData, filteredOutputData, settings, KFoldAnn(settings))
 
 print "Generating", settings.file3, "..."
 createFile3(secondStage, settings)
