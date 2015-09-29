@@ -31,6 +31,11 @@ def invProbIsMin(mu_b, stdev_a, stdev_b, threshold):
 
     return sp.stats.norm(loc=mu, scale=math.sqrt(var)).ppf(1-threshold)
 
+def getSecondStageTimeThreshold(bestEstimate, kfa, settings):
+    stdevBest = kfa.getErrorEstimate()*bestEstimate
+    stdevUpper = kfa.getErrorEstimate()*bestEstimate #THIS IS WRONG, should be the the time we're finding...
+    return invProbIsMin(bestEstimate, stdevUpper, stdevBest, settings.secondStageThreshold)
+
 
 
 def getSubset(full1, full2, subset1, subset2, subsetSize):

@@ -122,6 +122,13 @@ class KFoldAnn:
     
     def mean(self, temp):
         return sum(temp)/len(temp)
+
+
+    def getErrorEstimate(self):
+        est = [math.exp(math.sqrt(x)) - 1 for x in self.mses]
+        estErr = np.mean([x*0.5 for x in est])
+        
+        return estErr
         
             
     def validate(self, validationInput, validationOutput):

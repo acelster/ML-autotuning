@@ -146,6 +146,18 @@ class TestAutotuner(unittest.TestCase):
     def test_invProbIsMin(self):
         a = invProbIsMin(2, 1, 1, 1-0.2398)
         self.assertAlmostEqual(a,1.000,places=3)
+
+    def test_getSecondStageTimeThreshold(self):
+        settings = Settings()
+        settings.secondStageThreshold = 0.1
+
+        kfa = Mock_KFoldAnn()
+
+        kfa.getErrorEstimate = lambda  : 0.1
+
+        t = getSecondStageTimeThreshold(100, kfa, settings)
+
+        self.assertAlmostEqual(t,118.124,places=3)
         
         
     def test_getSubset(self):
