@@ -12,7 +12,10 @@
 #include <sys/time.h>
 
 
-int* parse_file(char* input_file, char* output_file, int n_samples, int n_parameters){
+const int MODE_ALL = 0;
+const int MODE_TIMED = 1;
+
+int* parse_file(char* input_file, char* output_file, int n_samples, int n_parameters, int mode, float* timeThreshold){
 
     FILE* file = fopen(input_file, "r");
     if(file == NULL){
@@ -20,8 +23,13 @@ int* parse_file(char* input_file, char* output_file, int n_samples, int n_parame
         exit(-1);
     }
 
-    int a,b;
+    int a,b,c,d;
+    if(mode == MODE_ALL){
     fscanf(file, "%d %d\n", &a, &b);
+    }
+    else{
+        fscanf(file,"%d %d %f %d %d\n",&a, &b, timeThreshold, &c, &d);
+    }
 
     int* configs = (int*)malloc(sizeof(int)*n_samples*n_parameters);
     
@@ -45,8 +53,8 @@ double get_time(struct timeval start, struct timeval end){
 
 int main(int argc, char** argv){
     
-    if(argc != 4){
-        printf("Useage: %s infile outfile n_samples\n", argv[0]);
+    if(argc != 5){
+        printf("Useage: %s infile outfile n_samples mode\n", argv[0]);
         exit(0);
     }
     
@@ -55,9 +63,11 @@ int main(int argc, char** argv){
     char* input_file = argv[1];
     char* output_file = argv[2];
     int n_samples = atoi(argv[3]);
-    int n_parameters = 3;
+    int mode = atoi(argv[4]);
+    int n_parameters = 4;
     
-    int* configs = parse_file(input_file, output_file, n_samples, n_parameters);
+    float timeThreshold;
+    int* configs = parse_file(input_file, output_file, n_samples, n_parameters, mode, &timeThreshold);
     
     int k = 300;
     int l = 200;
@@ -121,6 +131,9 @@ int main(int argc, char** argv){
             }
         }
         */
+        if(mode == MODE_TIMED && time > timeThreshold && i > 0){
+            break;
+        }
         
         fprintf(file, "%d %d %d %f\n", bk, bl, bm, time);
     }
