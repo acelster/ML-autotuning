@@ -70,8 +70,7 @@ def tune(inputData, outputData, settings, kfa):
     
     secondStageConfigs = []
     bestPredictedTime = min(predictions)
-    secondStageTimeThreshold = getSecondStageTimeThreshold(bestPredictedTime, kfa, settings)
-    
+    secondStageTimeThreshold = getSecondStageTimeThreshold(math.exp(bestPredictedTime), kfa, settings)
     
     print "Finding best predictions..."
     while len(predictions) > 0:

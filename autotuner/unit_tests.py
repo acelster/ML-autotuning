@@ -142,7 +142,7 @@ class  Mock_KFoldAnn:
         pass
     
     def runAll(self, inputData):
-        outputData = [sum(x) + 104 for x in inputData]
+        outputData = [math.log(sum(x)+10) for x in inputData]
         
         return outputData
     
@@ -261,7 +261,8 @@ class TestAutotuner(unittest.TestCase):
         self.assertEqual([0,0,0], secondStageConfigs[0])
         self.assertEqual(1, sum(secondStageConfigs[1]))
         self.assertEqual(1, sum(secondStageConfigs[2]))
-        self.assertAlmostEqual(118.124, secondStageTimeThreshold, 3)
+        self.assertEqual(1, sum(secondStageConfigs[2]))
+        self.assertAlmostEqual(7.087, secondStageTimeThreshold, 3)
         
             
 if __name__ == '__main__':
