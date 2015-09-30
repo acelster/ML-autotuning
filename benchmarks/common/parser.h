@@ -22,5 +22,9 @@ char* get_correct_file();
 char* get_output_file();
 int* parse_file(int argc, char** argv, int* n, int* e, int* limits, int n_parameters);
 cl_device_id get_selected_device();
+float get_time_threshold();
+int get_min_second_stage();
+int get_max_second_stage();
+int get_use_time_threshold();
         
 #endif

@@ -24,6 +24,11 @@ static char* output_file = NULL;
 static char* device = NULL;
 static int use_time_threshold = 0;
 
+//These could be moved
+static float time_threshold = 0.0;
+static int min_second_stage = 0;
+static int max_second_stage = 0;
+
 static const char* help = 
 "Options: \n \
 -h              Display this message and exit \n \
@@ -99,6 +104,23 @@ void parse_args(int argc, char** argv){
     }
 }
 
+//TODO reevaluate this desing
+float get_time_threshold(){
+    return time_threshold;
+}
+
+int get_min_second_stage(){
+    return min_second_stage;
+}
+
+int get_max_second_stage(){
+    return max_second_stage;
+}
+
+int get_use_time_threshold(){
+    return use_time_threshold;
+}
+
 char* get_output_file(){
     return output_file;
 }
@@ -164,8 +186,6 @@ int* parse_file(int argc, char** argv, int* n, int* e, int* limits, int n_parame
     }
 
     int n_lines = 0, n_entries = 0;
-    float time_threshold = 0.0f;
-    int min_second_stage = 0, max_second_stage = 0;
 
     if(use_time_threshold){
         fscanf(file, "%d %d %f %d %d\n", &n_lines, &n_entries, &time_threshold, &min_second_stage, &max_second_stage);
