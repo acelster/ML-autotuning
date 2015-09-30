@@ -72,7 +72,7 @@ int main(int argc, char** argv){
         int c = configs[i*n_parameters+2];
         int d = configs[i*n_parameters+3];
         
-        float f = abs(a-1) + abs(b-2) + abs(c-3) + abs(d-4);
+        float f = 10 + abs(a-1) + abs(b-2) + abs(c-3) + abs(d-4);
 
         if(mode == MODE_TIMED && f > timeThreshold && i > 0){
             break;
