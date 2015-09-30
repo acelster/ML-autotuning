@@ -25,11 +25,13 @@ def probIsMin(mu_a, mu_b, stdev_a, stdev_b):
     var = stdev_a**2 + stdev_b**2 
     return 1.0 - sp.stats.norm(loc=mu, scale=math.sqrt(var)).cdf(0 + mu_a)
 
+
 def invProbIsMin(mu_b, stdev_a, stdev_b, threshold):
     mu =  mu_b
     var = stdev_a**2 + stdev_b**2 
 
     return sp.stats.norm(loc=mu, scale=math.sqrt(var)).ppf(1-threshold)
+
 
 def getSecondStageTimeThreshold(bestEstimate, kfa, settings):
     e = kfa.getErrorEstimate()
@@ -43,8 +45,6 @@ def getSecondStageTimeThreshold(bestEstimate, kfa, settings):
         
     return a
         
-
-
 
 def getSubset(full1, full2, subset1, subset2, subsetSize):
     for i in range(0, subsetSize):

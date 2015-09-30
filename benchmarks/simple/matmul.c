@@ -47,7 +47,7 @@ int* parse_file(char* input_file, char* output_file, int n_samples, int n_parame
 
 double get_time(struct timeval start, struct timeval end){
     long int ms = ((end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec));
-    return ms/1e3;
+    return ms/1e6;
 }
 
 
