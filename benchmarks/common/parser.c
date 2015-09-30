@@ -22,6 +22,7 @@ static int self_test = 0;
 static char* correct_file = NULL;
 static char* output_file = NULL;
 static char* device = NULL;
+static int use_time_threshold = 0;
 
 static const char* help = 
 "Options: \n \
@@ -29,6 +30,7 @@ static const char* help =
 -i <arg>        Jump start to this configuration \n \
 -f <file>       Input file with configurations \n \
 -n <arg>        Number of configurations \n \
+-r              Use second stage time threshold from file \n \
 -s              Seed random number generator \n \
 -m              Ignore crashes when counting \n \
 -t              Self test \n \
@@ -46,7 +48,7 @@ void print_help(int argc, char** argv){
 void parse_args(int argc, char** argv){
     
     int c;
-    while( (c = getopt(argc, argv, "htc:i:f:n:w:smld:")) != -1){
+    while( (c = getopt(argc, argv, "htc:i:f:n:w:smld:r")) != -1){
         switch (c) {
             case 'h':
                 print_help(argc, argv);
@@ -81,6 +83,9 @@ void parse_args(int argc, char** argv){
                 break;
             case 'd':
                 device = optarg;
+                break;
+            case 'r':
+                use_time_threshold = 1;
                 break;
             default:
                 break;
@@ -159,8 +164,15 @@ int* parse_file(int argc, char** argv, int* n, int* e, int* limits, int n_parame
     }
 
     int n_lines = 0, n_entries = 0;
-    fscanf(file, "%d %d\n", &n_lines, &n_entries);
-    
+    float time_threshold = 0.0f;
+    int min_second_stage = 0, max_second_stage = 0;
+
+    if(use_time_threshold){
+        fscanf(file, "%d %d %f %d %d\n", &n_lines, &n_entries, &time_threshold, &min_second_stage, &max_second_stage);
+    }
+    else{
+        fscanf(file, "%d %d\n", &n_lines, &n_entries);
+    }
 
     int * configs = (int*)malloc(sizeof(int)*n_lines);
     int temp;
@@ -168,7 +180,6 @@ int* parse_file(int argc, char** argv, int* n, int* e, int* limits, int n_parame
     for(int l = 0; l < n_lines; l++){
     	value = 0;
         for(int f = 0; f < n_entries; f++){
-            
             fscanf(file," %d ", &temp);
             value += temp * cumulutative[f];
         }
