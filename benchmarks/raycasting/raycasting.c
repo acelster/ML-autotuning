@@ -473,10 +473,10 @@ void run_on_configurations(int* configurations, int n_run_configurations, int n_
         i++;
         free(temp_config);
 
-        if(get_use_time_threshold() && time > get_time_threshold() && i >= get_min_second_stage()){
+        if(get_use_time_threshold() && time > get_time_threshold() && j >= get_min_second_stage()){
             break;
         }
-        if(get_use_time_threshold() && i >= get_max_second_stage()){
+        if(get_use_time_threshold() && j >= get_max_second_stage()){
             break;
         }
     }
