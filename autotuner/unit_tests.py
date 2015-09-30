@@ -188,12 +188,17 @@ class TestAutotuner(unittest.TestCase):
         settings.secondStageThreshold = 0.1
 
         kfa = Mock_KFoldAnn()
-
-        kfa.getErrorEstimate = lambda  : 0.1
+        kfa.getErrorEstimate = lambda : 0.1
 
         t = getSecondStageTimeThreshold(100, kfa, settings)
+        self.assertAlmostEqual(t,120.020,places=3)
 
-        self.assertAlmostEqual(t,118.124,places=3)
+
+        settings.secondStageThreshold = 0.250578
+        kfa.getErrorEstimate = lambda : 0.1
+        t = getSecondStageTimeThreshold(100, kfa, settings)
+
+        self.assertAlmostEqual(t,110.000,places=3)
         
         
     def test_getSubset(self):
@@ -262,7 +267,7 @@ class TestAutotuner(unittest.TestCase):
         self.assertEqual(1, sum(secondStageConfigs[1]))
         self.assertEqual(1, sum(secondStageConfigs[2]))
         self.assertEqual(1, sum(secondStageConfigs[2]))
-        self.assertAlmostEqual(7.087, secondStageTimeThreshold, 3)
+        self.assertAlmostEqual(7.201, secondStageTimeThreshold, 3)
         
             
 if __name__ == '__main__':
