@@ -45,11 +45,14 @@ class Settings:
                 self.nTrainingSamples = int(l[1])
             if l[0] == "N_SECOND_STAGE_MIN":
                 self.nSecondStageMin = int(l[1])
+            if l[0] == "N_SECOND_STAGE":
                 self.nSecondStage = int(l[1])
+                self.useSecondStageAbs = True
             if l[0] == "N_SECOND_STAGE_MAX":
                 self.nSecondStageMax = int(l[1])
             if l[0] == "SECOND_STAGE_THRESHOLD":
                 self.secondStageThreshold = float(l[1])
+                self.useSecondStageThreshold = True
             if l[0] == "KEEP_FILES":
                 self.keepFiles = int(l[1])
             if l[0] == "K":
@@ -93,9 +96,15 @@ class Settings:
             print "ERROR: maximum number of samples in second stage must be larger than minimum"
             exit(-1)
 
-        if self.secondStageThreshold < 0.0 or self.secondStageThreshold > 100.0:
-            print "ERROR: second stage threshold must be between 0 and 100"
+        if self.secondStageThreshold < 0.0 or self.secondStageThreshold > 1.0:
+            print "ERROR: second stage threshold must be between 0 and 1.0"
             exit(-1)
+            
+        if self.useSecondStageAbs and self.useSecondStageThreshold:
+            print "WARNING: Both fixed and threshold based second stage size specified. Defaulting to fixed." 
+
+        if not (self.useSecondStageAbs or self.useSecondStageThreshold):
+            print "WARNING: Neither fixed and threshold based second stage size specified. Defaulting to fixed." 
             
         if self.k <= 0:
             print "ERROR: k must be positive"
@@ -135,8 +144,14 @@ class Settings:
         self.networkSize = 30
         self.nTrainingSamples = 100
         self.nSecondStage = 10
+        self.nSecondStageMax = 10
+        self.nSecondStageMin = 100
+        self.secondStageThreshold = 0.1
         self.keepFiles = 0
         self.k = 10
+        
+        self.useSecondStageAbs = False
+        self.useSecondStageThreshold = False
         
                 
     def printSettings(self):

@@ -255,6 +255,7 @@ class TestAutotuner(unittest.TestCase):
         inputData = []
         outputData = []
         settings= Settings()
+        settings.useSecondStageThreshold = True
         settings.parameterRanges = [2,3,4]
         settings.computeNConfigurations()
         settings.nTrainingSamples = 0
@@ -268,6 +269,33 @@ class TestAutotuner(unittest.TestCase):
         self.assertEqual(1, sum(secondStageConfigs[2]))
         self.assertEqual(1, sum(secondStageConfigs[2]))
         self.assertAlmostEqual(7.201, secondStageTimeThreshold, 3)
+        
+    def test_tune_secondStageSize(self):
+        inputData = []
+        outputData = []
+        settings = Settings()
+        settings.useSecondStageThreshold = True
+        settings.parameterRanges = [2,3,4]
+        settings.computeNConfigurations()
+        settings.nTrainingSamples = 0
+        settings.nSecondStage = 10
+        settings.secondStageThreshold = 0.1
+        
+        secondStageTimeThreshold, secondStageConfigs = tune(inputData, outputData, settings, Mock_KFoldAnn())
+        
+        self.assertEqual(2*3*4, len(secondStageConfigs))
+        
+        settings.useSecondStageAbs = True
+        secondStageTimeThreshold, secondStageConfigs = tune(inputData, outputData, settings, Mock_KFoldAnn())
+        self.assertEqual(10, len(secondStageConfigs))
+
+        settings.useSecondStageThreshold = False 
+        secondStageTimeThreshold, secondStageConfigs = tune(inputData, outputData, settings, Mock_KFoldAnn())
+        self.assertEqual(10, len(secondStageConfigs))
+
+        settings.useSecondStageAbs = False 
+        secondStageTimeThreshold, secondStageConfigs = tune(inputData, outputData, settings, Mock_KFoldAnn())
+        self.assertEqual(10, len(secondStageConfigs))
         
             
 if __name__ == '__main__':

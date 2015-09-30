@@ -85,4 +85,7 @@ def tune(inputData, outputData, settings, kfa):
     secondStageConfigs = [untransformSingle(x, settings.parameterRanges) for x in allInputCombinations]
     
         
-    return secondStageTimeThreshold, secondStageConfigs
+    if settings.useSecondStageThreshold and not settings.useSecondStageAbs:
+        return secondStageTimeThreshold, secondStageConfigs
+    else:
+        return 0, secondStageConfigs[0:settings.nSecondStage]
