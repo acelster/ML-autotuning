@@ -6,16 +6,16 @@
 
 
 
-PARAMETER_RANGES:10 10 10 10
-COMMAND1:./test data1.txt data2.txt 100 0
-COMMAND2:./test data3.txt data4.txt 1000 1
+PARAMETER_RANGES:8 8 8 8 2 2 2 2 2
+COMMAND1:./convolution -f data1.txt > data2.txt
+COMMAND2:./convolution -f data3.txt > data4.txt -r
 FILE1:data1.txt
 FILE2:data2.txt
 FILE3:data3.txt
 FILE4:data4.txt
 N_TRAINING_SAMPLES:100
 N_SECOND_STAGE_MIN:10
-N_SECOND_STAGE_MAX:100
+N_SECOND_STAGE_MAX:1000
 SECOND_STAGE_THRESHOLD:0.1
 NETWORK_SIZE:50
 KEEP_FILES:1

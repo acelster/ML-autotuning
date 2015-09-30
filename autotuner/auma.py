@@ -66,15 +66,17 @@ print "Reading", settings.file4, "..."
 finalConfigs = []
 finalTimes = []
 readData(finalConfigs, finalTimes, settings.file4, settings.parameterRanges)
-
+validFinalConfigs = []
+validFinalTimes = []
+filterData(finalConfigs, finalTimes, validFinalConfigs, validFinalTimes)
 
 if settings.keepFiles == 0:
     print "Deleting temporary files..."
     deleteFiles(settings)
 
-index = finalTimes.index(min(finalTimes))
+index = validFinalTimes.index(min(validFinalTimes))
 print
 print "Best configuration:"
-print configurationToString(finalConfigs[index])
+print configurationToString(validFinalConfigs[index])
 
 
