@@ -79,9 +79,15 @@ Useage
 ======
 <a name=useage></a>
 
-AUMA can only be used to auto-tune standalone executeables or scripts. If you only wish to auto-tune a part of an application, e.g. a single function or similar, you are required to add additional driver code to fulfill this requirement.
+To run AUMA, simply execute:
 
-AUMA communicates with the application to be autotuned using plain text files, hence the application to be autotuned must be able to read a file of tuning parameter values, and for each set of parameter values, configure the code to be auto-tuned as apropriate, execute and time it, and write the results to a new file.
+	python auma.py settings.txt
+	
+Where settings.txt is file with settings specified by the user. There are no command line options.
+
+AUMA can only be used to auto-tune standalone executeables or scripts. If you only wish to auto-tune a part of an application, e.g. a single function or similar, you must add additional driver code to fulfill this requirement.
+
+AUMA communicates with the application to be autotuned using plain text files, therefore the application to be autotuned must be able to read a file of tuning parameter values, and for each set of parameter values, configure the code to be auto-tuned as apropriate, execute and time it, and write the results to a new file.
 
 The application to be auto tuned is executed twice, using a total of 4 files for communication.
 
@@ -94,7 +100,7 @@ AUMA reads all its options from a settings file. The file consists of multiple l
 
 	SETTING:VALUE
 	
-Here are all the settings, and their possible values:
+The following is a list of the settings, and their possible values:
 
 *	**COMMAND1** The command used to start the program to be autotuned for the first time it is executed.
 	
@@ -124,15 +130,82 @@ Here are all the settings, and their possible values:
 
 	*Example value:* 2 2 8 8 10
 	
-*	**N_TRAINING_SAMPLES** Number of parameter space points to be used for training the neural network.
+*	**N\_TRAINING\_SAMPLES** Number of parameter space points to be used for training the neural network.
 	
-*	**N_SECOND_STAGE** Number of parameter space points to be used for the second stage of the auto tuning process.
+*	**N\_SECOND\_STAGE** Number of parameter space points to be used for the second stage of the auto tuning process when a fixed size second stage is used. Cannot be used at the same times as **SECOND\_STAGE\_THRESHOLD**
+
+	*Example value:* 100
+
+*	**N\_SECOND\_STAGE\_MIN** Mininum number of valid samples to include in the second stage if threshold based second stage is used. Only valid if **SECOND\_STAGE\_THRESOLD** is specififed.
+
+	*Example value:* 10
+
+*	**N\_SECOND\_STAGE\_MAX** Maximum number of valid samples to include in the second stage if threshold based second stage is used. Only valid if **SECOND\_STAGE\_THRESOLD** is specififed.
+
+*	**SECOND\_STAGE\_THRESHOLD** Probability threshold when theshold based second stage size is used. Cannot be used at the same time as **N_SECOND_STAGE**. Should be a number between 0 and 1.
+
+	*Example value:* 0.2
 	
-*	**NETWORK_SIZE** Number of neurons in the hidden layer of the neural network.
+*	**NETWORK\_SIZE** Number of neurons in the hidden layer of the neural network.
+
+	*Example value:* 30
 	
 *	**KEEP_FILES** Whether of not to delete FILE1-FILE4 after completeion, 0 to delete, 1 to keep.
 
+	*Example value:* 0
+
 *	**K** The number of neural networks to use.
+
+	*Example value:* 10
+	
+Communication files
+-------------------
+
+The format of the files used for communication between AUMA and the application to be autotuned are explained here. File 1 and 3 are written by AUMA, and the application to be autotuned must be able to read these files, file 2 and 4 are written by the application to we autotuned, and AUMA reads these files.
+
+Invalid configurations should be indicated by using a negative value for the execution time.
+
+**File 1**
+The first line specifies the number of configurations, and the number of parameters for each configurations. The following lines have one configuration per line, with space separated parameters.
+
+*Example:*
+
+	4 3
+	1 3 2
+	2 1 3
+	2 1 1
+	1 3 1
+	
+**File 2**
+One line for each configuration, with the corresponding execution time, seperated by spaces.
+
+*Example:*
+
+	1 3 2 3.21
+	2 1 3 4.81
+	2 1 1 3.19
+	1.3.1 2.89
+
+**File 3**
+The first line specifies the number of configurations, and the number of parameters for each configuration. If threshold based second stage size is used, it also specifies the time threshold, the minimum number of valid second stage configurations and the maximum number of valid second stage parameters. The following lines have one configuraion per line, with space separated parameters.
+
+*Example:*
+
+	4 3 3.05 2 3
+	1 3 2
+	2 1 3
+	2 1 1
+	1 3 1
+
+**File 4**
+One line for each configuration, with the corresponding execution time, seperated by spaces (same as file 2).
+
+*Example:*
+
+	1 3 2 3.21
+	2 1 3 4.81
+	2 1 1 3.19
+	1.3.1 2.89
 
 Benchmarks
 ==========
@@ -177,6 +250,10 @@ Number of configurations points to run and execute. Only valid in mode 1\. (When
 	-f <file>
 	
 Will read configuration points from <code><file></code> and execute and time code for all of them.
+
+	-r
+	
+Use threshold based second stage size. Otherwise, fixed second stage size is assumed.
 	
 	-i <number>
 
