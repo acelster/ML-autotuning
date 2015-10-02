@@ -67,12 +67,19 @@ To quickly make sure that AUMA is instaled correctly, run:
 
 	python AUMA.py ../benchmarks/dummy.txt
 	
-If everything is working correctly, it should run withtout problems, and print out:
+This will run the autotuner on a toy benchmark. If everything is working correctly, it should run withtout problems, and print out:
 
 	Best configuration:
 	[0, 0, 0, 0]
 
 At the end.
+
+To make sure that the OpenCL benchmarks are working, execute the test script in the benchmarks directory:
+
+	chmod +x test.sh
+	./test.sh
+	
+This will cause each benchmark to be executed, performing a self test.
 
 
 Useage
