@@ -7,18 +7,6 @@
 
 all: ocl noocl
 
-test: ocl
-	cd bin; \
-	echo "\n==Testing raycast==\n"; \
-	./raycast -t; \
-	echo "\n==Testing stereo==\n"; \
-	./stereo -t; \
-	echo "\n==Testing convolution==\n"; \
-	./convolution -t; \
-	echo "\n==Testing bilateral==\n"; \
-	./bilateral -t; \
-	cd ..
-
 ocl: bin/stereo bin/raycast bin/convolution bin/bilateral
 
 bin/stereo :
