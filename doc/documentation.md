@@ -4,7 +4,6 @@ AUMA documentation
 This document provides the documentation for AUMA (AUto tuning by MAchine learning). It primarily focues on how to install and run AUMA and the included benchmarks. A higher level description of how AUMA works can be found in the papers:
 
 * Falch T. L., Elster A. C. *Machine Learning Based Autotuning for OpenCL Performance Portability*, IPDPSWS 15
-* Falch T. L., Elster A. C. *AUMA: a machine learning based autotuner*, JORS 
 
 **Contents**
 
