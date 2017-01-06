@@ -223,6 +223,7 @@ Name is distributed with the following OpenCL benchmarks:
 * stereo
 * convolution
 * raycast
+* median
 
 In addition, two much simpler benchmarks are included:
 
